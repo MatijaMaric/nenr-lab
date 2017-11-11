@@ -10,9 +10,4 @@ public class AkcelFuzzySystemMin extends FuzzySystem {
         super(defuzzifier);
     }
 
-    @Override
-    public int decide(int... inputs) {
-
-        return 0;
-    }
 }
