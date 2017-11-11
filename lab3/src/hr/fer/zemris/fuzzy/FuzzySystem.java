@@ -8,6 +8,8 @@ public abstract class FuzzySystem {
     private IDefuzzifier defuzzifier;
     private List<Rule> rules;
 
+    private IFuzzySet decision = null;
+
     private IBinaryFunction or = Operations.zadehOr();
 
     public FuzzySystem(IDefuzzifier defuzzifier) {
@@ -28,9 +30,13 @@ public abstract class FuzzySystem {
 
         for (int i = 1; i < rules.size(); ++i) {
             IFuzzySet ruleD = rules.get(i).decide(inputs);
-            Operations.binaryOperation(decision, ruleD, or);
+            decision = Operations.binaryOperation(decision, ruleD, or);
         }
-
+        this.decision = decision;
         return getDefuzzifier().defuzzify(decision);
+    }
+
+    public IFuzzySet getDecision() {
+        return decision;
     }
 }
