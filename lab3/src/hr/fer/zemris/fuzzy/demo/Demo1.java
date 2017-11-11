@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 public class Demo1 {
 
+    private static IBinaryFunction tNorm = Operations.zadehAnd();
+    private static IBinaryFunction sNorm = Operations.zadehOr();
+    private static IBinaryFunction implication = Operations.zadehAnd();
+
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
@@ -16,7 +20,7 @@ public class Demo1 {
 
         IDefuzzifier def = new COADefuzzifier();
 
-        FuzzySystem fsKormilo = new KormiloFuzzySystem(def);
+        FuzzySystem fsKormilo = new KormiloFuzzySystem(def, tNorm, sNorm, implication);
 
         Scanner s = new Scanner(input.readLine());
         L = s.nextInt();

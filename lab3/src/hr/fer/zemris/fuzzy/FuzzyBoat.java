@@ -10,6 +10,10 @@ import java.util.Scanner;
 
 public class FuzzyBoat {
 
+    private static IBinaryFunction tNorm = Operations.zadehAnd();
+    private static IBinaryFunction sNorm = Operations.zadehOr();
+    private static IBinaryFunction implication = Operations.zadehAnd();
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -19,8 +23,8 @@ public class FuzzyBoat {
 
         IDefuzzifier def = new COADefuzzifier();
 
-        FuzzySystem fsAkcel = new AkcelFuzzySystem(def);
-        FuzzySystem fsKormilo = new KormiloFuzzySystem(def);
+        FuzzySystem fsAkcel = new AkcelFuzzySystem(def, tNorm, sNorm, implication);
+        FuzzySystem fsKormilo = new KormiloFuzzySystem(def, tNorm, sNorm, implication);
 
         BufferedWriter log = Files.newBufferedWriter(Paths.get("D:\\log.txt"));
 

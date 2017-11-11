@@ -15,7 +15,7 @@ public class Rule {
         this.antecedent = antecedent;
         this.consequent = consequent;
         this.tNorm = tNorm;
-        this.implication = implication
+        this.implication = implication;
     }
 
     public Rule(IFuzzySet[] antecedent, IFuzzySet consequent, IBinaryFunction tNorm, IBinaryFunction implication) {
