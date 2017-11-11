@@ -1,8 +1,11 @@
 package hr.fer.zemris.fuzzy;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class FuzzyBoat {
@@ -19,6 +22,8 @@ public class FuzzyBoat {
         FuzzySystem fsAkcel = new AkcelFuzzySystemMin(def);
         FuzzySystem fsKormilo = new KormiloFuzzySystemMin(def);
 
+        BufferedWriter log = Files.newBufferedWriter(Paths.get("D:\\log.txt"));
+
         while(true) {
             if ((line = input.readLine()) != null) {
                 if (line.charAt(0) == 'K') break;
@@ -34,6 +39,9 @@ public class FuzzyBoat {
             akcel = fsAkcel.decide(L, D, LK, DK, V, S);
             kormilo = fsKormilo.decide(L, D, LK, DK, V, S);
             System.out.println(akcel + " " + kormilo);
+            log.write(akcel + " " + kormilo);
+            log.newLine();
+            log.flush();
             System.out.flush();
         }
 

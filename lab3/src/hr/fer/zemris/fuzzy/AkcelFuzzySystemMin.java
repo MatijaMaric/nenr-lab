@@ -21,8 +21,8 @@ public class AkcelFuzzySystemMin extends FuzzySystem {
         IFuzzySet blizuZida = new CalculatedFuzzySet(distance, StandardFuzzySets.lFunction(50, 75));
 
         IFuzzySet sporo = new CalculatedFuzzySet(velocity, StandardFuzzySets.lFunction(10, 20));
-        IFuzzySet brzo = new CalculatedFuzzySet(velocity, StandardFuzzySets.gammaFunction(20,30));
-        IFuzzySet prebrzo = new CalculatedFuzzySet(velocity, StandardFuzzySets.gammaFunction(30, 50));
+        IFuzzySet brzo = new CalculatedFuzzySet(velocity, StandardFuzzySets.lambdaFunction(20,30, 40));
+        IFuzzySet prebrzo = new CalculatedFuzzySet(velocity, StandardFuzzySets.gammaFunction(30, 40));
 
         IFuzzySet naprijed = new MutableFuzzySet(direction).set(DomainElement.of(1), 1);
         IFuzzySet natrag = new MutableFuzzySet(direction).set(DomainElement.of(0), 1);
