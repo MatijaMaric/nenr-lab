@@ -1,6 +1,6 @@
 package hr.fer.zemris.fuzzy;
 
-public class KormiloFuzzySystemMin extends FuzzySystem {
+public class KormiloFuzzySystem extends FuzzySystem {
 
     {
         IDomena angle = Domain.intRange(-90, 91);
@@ -21,14 +21,14 @@ public class KormiloFuzzySystemMin extends FuzzySystem {
         IFuzzySet natrag = new MutableFuzzySet(direction).set(DomainElement.of(0), 1);
 
         // L, D, LK, RK, V, S
-        getRules().add(new Rule(new IFuzzySet[] {blizuZida, idDistance, idDistance, idDistance, idVelocity, naprijed}, skreniDesno));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, blizuZida, idDistance, idDistance, idVelocity, naprijed}, skreniLijevo));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, idVelocity, naprijed}, skreniDesno));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, idVelocity, naprijed}, skreniLijevo));
+        getRules().add(new Rule(new IFuzzySet[] {blizuZida, idDistance, idDistance, idDistance, idVelocity, naprijed}, skreniDesno, gettNorm(), getImplication()));
+        getRules().add(new Rule(new IFuzzySet[] {idDistance, blizuZida, idDistance, idDistance, idVelocity, naprijed}, skreniLijevo, gettNorm(), getImplication()));
+        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, idVelocity, naprijed}, skreniDesno, gettNorm(), getImplication()));
+        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, idVelocity, naprijed}, skreniLijevo, gettNorm(), getImplication()));
     }
 
-    public KormiloFuzzySystemMin(IDefuzzifier defuzzifier) {
-        super(defuzzifier);
+    public KormiloFuzzySystem(IDefuzzifier defuzzifier, IBinaryFunction tNorm, IBinaryFunction sNorm, IBinaryFunction implication) {
+        super(defuzzifier, tNorm, sNorm, implication);
     }
 
 }

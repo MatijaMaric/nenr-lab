@@ -8,15 +8,18 @@ public class Rule {
     private List<IFuzzySet> antecedent;
     private IFuzzySet consequent;
 
-    private IBinaryFunction and = Operations.zadehAnd();
+    private IBinaryFunction tNorm;
+    private IBinaryFunction implication;
 
-    public Rule(List<IFuzzySet> antecedent, IFuzzySet consequent) {
+    public Rule(List<IFuzzySet> antecedent, IFuzzySet consequent, IBinaryFunction tNorm, IBinaryFunction implication) {
         this.antecedent = antecedent;
         this.consequent = consequent;
+        this.tNorm = tNorm;
+        this.implication = implication
     }
 
-    public Rule(IFuzzySet[] antecedent, IFuzzySet consequent) {
-        this(Arrays.asList(antecedent), consequent);
+    public Rule(IFuzzySet[] antecedent, IFuzzySet consequent, IBinaryFunction tNorm, IBinaryFunction implication) {
+        this(Arrays.asList(antecedent), consequent, tNorm, implication);
     }
 
     public IFuzzySet decide(int... inputs) {
@@ -28,10 +31,10 @@ public class Rule {
             double val = antecedent.get(0).getValueAt(DomainElement.of(inputs[0]));
 
             for (int i = 1; i < antecedent.size(); ++i) {
-                val = and.valueAt(val, antecedent.get(i).getValueAt(DomainElement.of(inputs[i])));
+                val = tNorm.valueAt(val, antecedent.get(i).getValueAt(DomainElement.of(inputs[i])));
             }
 
-            decision.set(element, and.valueAt(val, consequent.getValueAt(element)));
+            decision.set(element, implication.valueAt(val, consequent.getValueAt(element)));
 
         }
 

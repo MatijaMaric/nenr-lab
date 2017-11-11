@@ -19,8 +19,8 @@ public class FuzzyBoat {
 
         IDefuzzifier def = new COADefuzzifier();
 
-        FuzzySystem fsAkcel = new AkcelFuzzySystemMin(def);
-        FuzzySystem fsKormilo = new KormiloFuzzySystemMin(def);
+        FuzzySystem fsAkcel = new AkcelFuzzySystem(def);
+        FuzzySystem fsKormilo = new KormiloFuzzySystem(def);
 
         BufferedWriter log = Files.newBufferedWriter(Paths.get("D:\\log.txt"));
 

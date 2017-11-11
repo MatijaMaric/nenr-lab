@@ -16,7 +16,7 @@ public class Demo1 {
 
         IDefuzzifier def = new COADefuzzifier();
 
-        FuzzySystem fsKormilo = new KormiloFuzzySystemMin(def);
+        FuzzySystem fsKormilo = new KormiloFuzzySystem(def);
 
         Scanner s = new Scanner(input.readLine());
         L = s.nextInt();

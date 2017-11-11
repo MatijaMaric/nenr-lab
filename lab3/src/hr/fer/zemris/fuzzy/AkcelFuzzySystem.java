@@ -2,7 +2,7 @@ package hr.fer.zemris.fuzzy;
 
 import java.util.ArrayList;
 
-public class AkcelFuzzySystemMin extends FuzzySystem {
+public class AkcelFuzzySystem extends FuzzySystem {
 
     {
         IDomena acceleration = Domain.intRange(-50, 50);
@@ -28,18 +28,18 @@ public class AkcelFuzzySystemMin extends FuzzySystem {
         IFuzzySet natrag = new MutableFuzzySet(direction).set(DomainElement.of(0), 1);
 
         // L, D, LK, RK, V, S
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, brzo, naprijed}, nulaAcc));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, brzo, natrag}, nulaAcc));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, brzo, naprijed}, nulaAcc));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, brzo, natrag}, nulaAcc));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, idDistance, sporo, idDirection}, ubrzaj));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, idDistance, prebrzo, idDirection}, uspori));
+        addRule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, brzo, naprijed}, nulaAcc);
+        addRule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, brzo, natrag}, nulaAcc);
+        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, brzo, naprijed}, nulaAcc);
+        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, brzo, natrag}, nulaAcc);
+        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, idDistance, sporo, idDirection}, ubrzaj);
+        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, idDistance, prebrzo, idDirection}, uspori);
 
 
     }
 
-    public AkcelFuzzySystemMin(IDefuzzifier defuzzifier) {
-        super(defuzzifier);
+    public AkcelFuzzySystem(IDefuzzifier defuzzifier, IBinaryFunction tNorm, IBinaryFunction sNorm, IBinaryFunction implication) {
+        super(defuzzifier, tNorm, sNorm, implication);
     }
 
 }

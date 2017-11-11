@@ -10,11 +10,17 @@ public abstract class FuzzySystem {
 
     private IFuzzySet decision = null;
 
-    private IBinaryFunction or = Operations.zadehOr();
+    private IBinaryFunction tNorm = Operations.zadehOr();
+    private IBinaryFunction sNorm = Operations.zadehOr();
+    private IBinaryFunction implication = Operations.zadehOr();
 
-    public FuzzySystem(IDefuzzifier defuzzifier) {
+    public FuzzySystem(IDefuzzifier defuzzifier, IBinaryFunction tNorm, IBinaryFunction sNorm, IBinaryFunction implication) {
         this.defuzzifier = defuzzifier;
         this.rules = new ArrayList<>();
+
+        this.tNorm = tNorm;
+        this.sNorm = sNorm;
+        this.implication = implication;
     }
 
     public IDefuzzifier getDefuzzifier() {
@@ -25,12 +31,16 @@ public abstract class FuzzySystem {
         return rules;
     }
 
+    public void addRule(IFuzzySet[] antecedent, IFuzzySet consequent) {
+        getRules().add(new Rule(antecedent, consequent, tNorm, implication));
+    }
+
     public int decide(int... inputs) {
         IFuzzySet decision = rules.get(0).decide(inputs);
 
         for (int i = 1; i < rules.size(); ++i) {
             IFuzzySet ruleD = rules.get(i).decide(inputs);
-            decision = Operations.binaryOperation(decision, ruleD, or);
+            decision = Operations.binaryOperation(decision, ruleD, sNorm);
         }
         this.decision = decision;
         return getDefuzzifier().defuzzify(decision);
@@ -38,5 +48,17 @@ public abstract class FuzzySystem {
 
     public IFuzzySet getDecision() {
         return decision;
+    }
+
+    public IBinaryFunction getImplication() {
+        return implication;
+    }
+
+    public IBinaryFunction getsNorm() {
+        return sNorm;
+    }
+
+    public IBinaryFunction gettNorm() {
+        return tNorm;
     }
 }
