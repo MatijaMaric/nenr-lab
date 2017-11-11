@@ -24,12 +24,6 @@ public class KormiloFuzzySystem extends FuzzySystem {
         IFuzzySet natrag = new MutableFuzzySet(direction).set(DomainElement.of(0), 1);
 
         // L, D, LK, RK, V, S
-        /*
-        addRule(new IFuzzySet[] {blizuZida, idDistance, idDistance, idDistance, idVelocity, idDirection}, skreniDesno);
-        addRule(new IFuzzySet[] {idDistance, blizuZida, idDistance, idDistance, idVelocity, idDirection}, skreniLijevo);
-        addRule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, idVelocity, idDirection}, skreniDesno);
-        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, idVelocity, idDirection}, skreniLijevo);
-        */
 
         addRule(new IFuzzySet[] {idDistance,    blizuZida,      idDistance,     idDistance,     idVelocity,     idDirection},   skreniLijevo);
         addRule(new IFuzzySet[] {idDistance,    jakoBlizuZida,  idDistance,     idDistance,     idVelocity,     idDirection},   skreniOstroLijevo);

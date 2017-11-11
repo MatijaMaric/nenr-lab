@@ -28,14 +28,6 @@ public class AkcelFuzzySystem extends FuzzySystem {
         IFuzzySet natrag = new MutableFuzzySet(direction).set(DomainElement.of(0), 1);
 
         // L, D, LK, RK, V, S
-        /*
-        addRule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, brzo, naprijed}, nulaAcc);
-        addRule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, brzo, natrag}, nulaAcc);
-        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, brzo, naprijed}, nulaAcc);
-        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, brzo, natrag}, nulaAcc);
-        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, idDistance, sporo, idDirection}, ubrzaj);
-        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, idDistance, prebrzo, idDirection}, uspori);
-        */
 
         addRule(new IFuzzySet[] {idDistance,    idDistance,     idDistance,     idDistance,     idVelocity,     naprijed},  ubrzaj);
         addRule(new IFuzzySet[] {idDistance,    idDistance,     idDistance,     idDistance,     idVelocity,     natrag},    uspori);
