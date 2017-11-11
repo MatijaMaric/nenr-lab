@@ -36,6 +36,7 @@ public abstract class FuzzySystem {
     }
 
     public int decide(int... inputs) {
+        if (rules.size() == 0) return 0;
         IFuzzySet decision = rules.get(0).decide(inputs);
 
         for (int i = 1; i < rules.size(); ++i) {
@@ -50,15 +51,4 @@ public abstract class FuzzySystem {
         return decision;
     }
 
-    public IBinaryFunction getImplication() {
-        return implication;
-    }
-
-    public IBinaryFunction getsNorm() {
-        return sNorm;
-    }
-
-    public IBinaryFunction gettNorm() {
-        return tNorm;
-    }
 }

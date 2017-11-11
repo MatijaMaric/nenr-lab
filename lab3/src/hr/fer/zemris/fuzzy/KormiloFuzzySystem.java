@@ -12,19 +12,29 @@ public class KormiloFuzzySystem extends FuzzySystem {
         IFuzzySet idVelocity = IdentityFuzzySet.get(velocity);
         IFuzzySet idDirection = IdentityFuzzySet.get(direction);
 
-        IFuzzySet blizuZida = new CalculatedFuzzySet(distance, StandardFuzzySets.lFunction(50, 75));
+        IFuzzySet blizuZida = new CalculatedFuzzySet(distance, StandardFuzzySets.lambdaFunction(75, 100, 125));
+        IFuzzySet jakoBlizuZida = new CalculatedFuzzySet(distance, StandardFuzzySets.lFunction(50, 100));
 
-        IFuzzySet skreniLijevo = new CalculatedFuzzySet(angle, StandardFuzzySets.lambdaFunction(30,50,70));
-        IFuzzySet skreniDesno = new CalculatedFuzzySet(angle, StandardFuzzySets.lambdaFunction(-70, -50, -30));
+        IFuzzySet skreniLijevo = new CalculatedFuzzySet(angle, StandardFuzzySets.lambdaFunction(0,15,30));
+        IFuzzySet skreniOstroLijevo = new CalculatedFuzzySet(angle, StandardFuzzySets.lambdaFunction(20,40,60));
+        IFuzzySet skreniDesno = new CalculatedFuzzySet(angle, StandardFuzzySets.lambdaFunction(-30, -15, 0));
+        IFuzzySet skreniOstroDesno = new CalculatedFuzzySet(angle, StandardFuzzySets.lambdaFunction(-60, -40, -20));
 
         IFuzzySet naprijed = new MutableFuzzySet(direction).set(DomainElement.of(1), 1);
         IFuzzySet natrag = new MutableFuzzySet(direction).set(DomainElement.of(0), 1);
 
         // L, D, LK, RK, V, S
-        getRules().add(new Rule(new IFuzzySet[] {blizuZida, idDistance, idDistance, idDistance, idVelocity, naprijed}, skreniDesno, gettNorm(), getImplication()));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, blizuZida, idDistance, idDistance, idVelocity, naprijed}, skreniLijevo, gettNorm(), getImplication()));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, idVelocity, naprijed}, skreniDesno, gettNorm(), getImplication()));
-        getRules().add(new Rule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, idVelocity, naprijed}, skreniLijevo, gettNorm(), getImplication()));
+        /*
+        addRule(new IFuzzySet[] {blizuZida, idDistance, idDistance, idDistance, idVelocity, idDirection}, skreniDesno);
+        addRule(new IFuzzySet[] {idDistance, blizuZida, idDistance, idDistance, idVelocity, idDirection}, skreniLijevo);
+        addRule(new IFuzzySet[] {idDistance, idDistance, blizuZida, idDistance, idVelocity, idDirection}, skreniDesno);
+        addRule(new IFuzzySet[] {idDistance, idDistance, idDistance, blizuZida, idVelocity, idDirection}, skreniLijevo);
+        */
+
+        addRule(new IFuzzySet[] {idDistance,    blizuZida,      idDistance,     idDistance,     idVelocity,     idDirection},   skreniLijevo);
+        addRule(new IFuzzySet[] {idDistance,    jakoBlizuZida,  idDistance,     idDistance,     idVelocity,     idDirection},   skreniOstroLijevo);
+        addRule(new IFuzzySet[] {blizuZida,     idDistance,     idDistance,     idDistance,     idVelocity,     idDirection},   skreniDesno);
+        addRule(new IFuzzySet[] {jakoBlizuZida, idDistance,     idDistance,     idDistance,     idVelocity,     idDirection},   skreniOstroDesno);
     }
 
     public KormiloFuzzySystem(IDefuzzifier defuzzifier, IBinaryFunction tNorm, IBinaryFunction sNorm, IBinaryFunction implication) {

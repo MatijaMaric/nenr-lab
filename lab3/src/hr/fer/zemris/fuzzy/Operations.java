@@ -35,6 +35,15 @@ public class Operations {
         return Double::max;
     }
 
+    public static IBinaryFunction product() {
+        return new IBinaryFunction() {
+            @Override
+            public double valueAt(double first, double second) {
+                return first * second;
+            }
+        };
+    }
+
     public static IBinaryFunction hamacherTNorm(double v) {
         return (x, y) -> {
             BigDecimal xD = BigDecimal.valueOf(x);

@@ -21,6 +21,7 @@ public class Demo1 {
         IDefuzzifier def = new COADefuzzifier();
 
         FuzzySystem fsKormilo = new KormiloFuzzySystem(def, tNorm, sNorm, implication);
+        FuzzySystem fsAkceleracija = new AkcelFuzzySystem(def, tNorm, sNorm, implication);
 
         Scanner s = new Scanner(input.readLine());
         L = s.nextInt();
@@ -30,9 +31,13 @@ public class Demo1 {
         V = s.nextInt();
         S = s.nextInt();
 
-        int akcel = fsKormilo.decide(L, D, LK, DK, V, S);
-        System.out.println(akcel);
+        int kormilo = fsKormilo.decide(L, D, LK, DK, V, S);
+        int akceleracija = fsAkceleracija.decide(L, D, LK, DK, V, S);
+        System.out.println(kormilo);
         Debug.print(fsKormilo.getDecision(), "decision:");
+
+        System.out.println(akceleracija);
+        Debug.print(fsAkceleracija.getDecision(), "decision:");
 
     }
 }
