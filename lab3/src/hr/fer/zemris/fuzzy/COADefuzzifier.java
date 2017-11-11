@@ -4,14 +4,14 @@ public class COADefuzzifier implements IDefuzzifier {
 
     @Override
     public int defuzzify(IFuzzySet fuzzySet) {
-        int A = 0;
-        int B = 0;
+        float numerator = 0;
+        float denominator = 0;
 
         for (DomainElement element : fuzzySet.getDomain()) {
-            A += element.getComponentValue(0) * fuzzySet.getValueAt(element);
-            B += fuzzySet.getValueAt(element);
+            numerator += element.getComponentValue(0) * fuzzySet.getValueAt(element);
+            denominator += fuzzySet.getValueAt(element);
         }
 
-        return A/B;
+        return Math.round(numerator/denominator);
     }
 }
