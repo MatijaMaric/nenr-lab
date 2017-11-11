@@ -1,4 +1,4 @@
-java -jar D:\FER\NENR\lab3\out\lab3.jar
+java -jar F:\Matija\FER\NENR\nenr-lab\lab3\out\lab3.jar
 2
 0
 0

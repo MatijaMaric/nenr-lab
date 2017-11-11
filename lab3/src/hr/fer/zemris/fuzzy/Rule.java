@@ -1,5 +1,6 @@
 package hr.fer.zemris.fuzzy;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Rule {
@@ -12,6 +13,10 @@ public class Rule {
     public Rule(List<IFuzzySet> antecedent, IFuzzySet consequent) {
         this.antecedent = antecedent;
         this.consequent = consequent;
+    }
+
+    public Rule(IFuzzySet[] antecedent, IFuzzySet consequent) {
+        this(Arrays.asList(antecedent), consequent);
     }
 
     public IFuzzySet decide(int... inputs) {
