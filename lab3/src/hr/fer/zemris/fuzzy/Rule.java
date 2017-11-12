@@ -11,6 +11,8 @@ public class Rule {
     private IBinaryFunction tNorm;
     private IBinaryFunction implication;
 
+    private IFuzzySet decision;
+
     public Rule(List<IFuzzySet> antecedent, IFuzzySet consequent, IBinaryFunction tNorm, IBinaryFunction implication) {
         this.antecedent = antecedent;
         this.consequent = consequent;
@@ -38,7 +40,12 @@ public class Rule {
 
         }
 
+        this.decision = decision;
         return decision;
 
+    }
+
+    public IFuzzySet getDecision() {
+        return decision;
     }
 }

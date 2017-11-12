@@ -40,10 +40,14 @@ public class FuzzyBoat {
                 S = s.nextInt();
             }
 
+            log.write("in: " + line);
+            log.newLine();
+            log.flush();
+
             akcel = fsAkcel.decide(L, D, LK, DK, V, S);
             kormilo = fsKormilo.decide(L, D, LK, DK, V, S);
             System.out.println(akcel + " " + kormilo);
-            log.write(akcel + " " + kormilo);
+            log.write("out: " + akcel + " " + kormilo);
             log.newLine();
             log.flush();
             System.out.flush();

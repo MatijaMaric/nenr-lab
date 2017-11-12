@@ -39,5 +39,10 @@ public class Demo1 {
         System.out.println(akceleracija);
         Debug.print(fsAkceleracija.getDecision(), "decision:");
 
+        IFuzzySet oneRule = fsKormilo.getRules().get(0).getDecision();
+        int decodedOneRule = def.defuzzify(oneRule);
+        System.out.println(decodedOneRule);
+        Debug.print(oneRule, "rule(0, kormilo):");
+
     }
 }
