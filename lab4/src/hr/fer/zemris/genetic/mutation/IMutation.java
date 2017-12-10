@@ -4,5 +4,5 @@ import hr.fer.zemris.genetic.Individual;
 
 public interface IMutation {
 
-    void mutate(Individual o);
+    Individual mutate(Individual o);
 }

@@ -19,5 +19,21 @@ public abstract class GeneticAlgorithm {
         this.mutation = mutation;
     }
 
+    public IFitness getFitness() {
+        return fitness;
+    }
+
+    public ISelection getSelection() {
+        return selection;
+    }
+
+    public ICrossover getCrossover() {
+        return crossover;
+    }
+
+    public IMutation getMutation() {
+        return mutation;
+    }
+
     public abstract Population evolve(Population pop);
 }

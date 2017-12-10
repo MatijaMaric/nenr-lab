@@ -29,7 +29,8 @@ public class HWFunction implements IFitness {
 
         for (int i = 0; i < fx.samplesCount; ++i) {
             String line = lines.get(i);
-            Double[] s = (Double[]) Arrays.stream(line.split("\t")).map(Double::valueOf).toArray();
+            String[] nums = line.split("\t");
+            double[] s = Arrays.stream(nums).mapToDouble(Double::valueOf).toArray();
             fx.inputX[i] = s[0];
             fx.inputY[i] = s[1];
             fx.output[i] = s[2];
