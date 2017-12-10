@@ -24,6 +24,8 @@ public class Rule {
         this(Arrays.asList(antecedent), consequent, tNorm, implication);
     }
 
+
+
     public IFuzzySet decide(int... inputs) {
 
         IDomena domain = consequent.getDomain();

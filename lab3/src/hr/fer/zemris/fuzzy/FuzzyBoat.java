@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class FuzzyBoat {
 
-    private static IBinaryFunction tNorm = Operations.product();
+    private static IBinaryFunction tNorm = Operations.zadehAnd();
     private static IBinaryFunction sNorm = Operations.zadehOr();
-    private static IBinaryFunction implication = Operations.product();
+    private static IBinaryFunction implication = Operations.zadehAnd();
 
     public static void main(String[] args) throws IOException {
 
