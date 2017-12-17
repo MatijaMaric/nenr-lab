@@ -1,10 +1,8 @@
 package hr.fer.zemris.neural.support;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 public class Curve {
 
@@ -59,15 +57,23 @@ public class Curve {
 
         Point last = points.get(0);
         newPoints.add(last);
-        for (int i = 1; i < points.size(); ++i) {
+        for (int i = 1; i < points.size()-1; ++i) {
             Point cur = points.get(i);
             curLen += cur.distTo(last);
             if (curLen >= space) {
-                newPoints.add(cur);
+                double diff = curLen - space;
+                double ratio = diff / space;
+                double x = last.getX() * ratio + cur.getX() * (1-ratio);
+                double y = last.getY() * ratio + cur.getY() * (1-ratio);
+                Point interpolate = new Point(x, y);
+                newPoints.add(interpolate);
+                cur = interpolate;
                 curLen = 0;
             }
             last = cur;
         }
+        while (newPoints.size() < m)
+            newPoints.add(points.get(points.size()-1));
 
         return new Curve(newPoints);
     }

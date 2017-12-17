@@ -40,8 +40,8 @@ public class Point {
     }
 
     public void sub(Point o) {
-        x += o.getX();
-        y += o.getY();
+        x -= o.getX();
+        y -= o.getY();
     }
 
     public void scale(double s) {
