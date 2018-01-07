@@ -53,7 +53,7 @@ public class ANFIS {
     private double mse() {
         double ans = 0;
         for (Sample sample : samples) {
-            ans += Math.pow(getO(sample.x, sample.y) - sample.y, 2);
+            ans += Math.pow(getO(sample.x, sample.y) - sample.z, 2);
         }
         return ans / (2*samples.size());
     }
