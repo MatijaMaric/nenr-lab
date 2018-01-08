@@ -1,67 +1,128 @@
 package hr.fer.zemris.neural.net;
 
-
 import java.util.Random;
 
-import static hr.fer.zemris.neural.support.NeuralUtil.*;
-
 public class Neuron {
-
     private static Random random = new Random();
 
-    private double[] weights;
-    private double[] correction;
+    private double w[];
+    private double dW[];
+    private double w0;
+    private double dW0;
+    private IActivationFunction actF;
+    private double d;
+    private double output;
 
-    private double error;
-    private double y;
-
-    public Neuron(int size) {
-        weights = randomize(size);
-        correction = new double[size];
+    public Neuron(double[] w, double w0, IActivationFunction actF) {
+        this.w = w;
+        this.w0 = w0;
+        this.actF = actF;
+        clearGradient();
     }
 
-    private double[] randomize(int size) {
-        double[] array = new double[size];
-        for (int i = 0; i < array.length; ++i) {
-            array[i] = random.nextDouble();
+    public Neuron(int size, IActivationFunction actF) {
+        this.w = new double[size];
+        this.w0 = random.nextDouble() * 2 - 1;
+        for (int i = 0; i < size; ++i) {
+            w[i] = random.nextDouble() * 2 - 1;
         }
-        return array;
+        this.actF = actF;
+        clearGradient();
+    }
+
+    public void clearGradient() {
+        dW = new double[w.length];
+        dW0 = 0;
+    }
+    public double[] getW() {
+        return w;
+    }
+
+    public double getW(int i) {
+        return w[i];
+    }
+
+    public void setW(double[] w) {
+        this.w = w;
+    }
+
+    public double getD() {
+        return d;
+    }
+
+    public void setD(double d) {
+        this.d = d;
+    }
+
+    public void setDelta(Layer next) {
+        this.d = 0;
+        for (int i = 0; i < next.size(); ++i) {
+            this.d += dfx() * w[i] * next.getDelta(i);
+        }
+    }
+
+    public double getOutput() {
+        return output;
+    }
+
+    public void addGradient(double[] input) {
+        for (int i = 0; i < w.length; ++i) {
+            dW[i] += input[i] * d;
+        }
+        w0 += d;
+    }
+
+    public void update(double learningRate) {
+        for (int i = 0; i < w.length; ++i) {
+            w[i] += learningRate * dW[i];
+        }
+        w0 += learningRate * dW0;
+        d = 0;
+        clearGradient();
+    }
+
+    public void updateWeights(Layer next, double learningRate) {
+        for (int i = 0; i < next.size(); ++i) {
+            dW[i] += learningRate * getOutput() * next.getDelta(i);
+        }
+    }
+
+    public void setWeights() {
+        for (int i = 0; i < w.length; ++i) {
+            w[i] += dW[i];
+        }
     }
 
     public double predict(double[] input) {
-        y = sigm(product(weights, input));
-        return y;
-    }
-
-    public void applyCorrection() {
-        for (int i = 0; i < weights.length; ++i) {
-            weights[i] += correction[i];
+        double ans = w0;
+        for (int i = 0; i < w.length; ++i) {
+            ans += w[i] * input[i];
         }
-        correction = new double[correction.length];
+        output = actF.fx(ans);
+        return output;
     }
 
-    public void addCorrection(Layer next, double learningRate) {
-        for (int i = 0; i < next.getNeurons().size(); ++i) {
-            correction[i] += learningRate * next.getNeurons().get(i).getError();
-        }
+    public IActivationFunction getF() {
+        return actF;
     }
 
-    public double getError() {
-        return error;
+    public double fx(double x) {
+        return actF.fx(x);
     }
 
-    public void setError(double error) {
-        this.error = error;
+    public double dfx(double x) {
+        return actF.dfx(x);
     }
 
-    public void correctError(Layer next) {
-        error = 0;
-        for (int i = 0; i < next.getNeurons().size(); ++i) {
-            error += y * weights[i] * next.getNeurons().get(i).getError();
-        }
+    public double fx() {
+        return fx(getOutput());
     }
 
-    public double getY() {
-        return y;
+    public double dfx() {
+        return dfx(getOutput());
+    }
+
+    public void addD(double dd) {
+        d += dd;
     }
 }

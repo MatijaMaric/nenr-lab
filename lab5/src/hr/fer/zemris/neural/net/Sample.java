@@ -21,6 +21,10 @@ public class Sample {
         return outputs;
     }
 
+    public double getOutput(int i) {
+        return outputs[i];
+    }
+
     public void setOutputs(double[] outputs) {
         this.outputs = outputs;
     }
