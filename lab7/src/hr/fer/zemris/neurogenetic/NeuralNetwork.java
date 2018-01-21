@@ -16,7 +16,7 @@ public class NeuralNetwork {
         int ans = 0;
         ans += layers[0] * layers[1] * 2;
         for (int i = 2; i < layers.length; ++i) {
-            ans += layers[i] * (layers[i-1] + 1);
+            ans += layers[i] * (layers[i-1]+1);
         }
         return ans;
     }

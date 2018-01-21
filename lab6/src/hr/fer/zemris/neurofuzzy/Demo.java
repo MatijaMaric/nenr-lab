@@ -4,6 +4,6 @@ public class Demo {
 
     public static void main(String[] args) {
         ANFIS anfis = new ANFIS(0.001, 10, 1000000);
-        anfis.fit(true, true);
+        anfis.fit(false, true);
     }
 }

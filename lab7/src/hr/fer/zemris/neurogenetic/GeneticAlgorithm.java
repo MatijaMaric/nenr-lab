@@ -126,6 +126,8 @@ public class GeneticAlgorithm {
     }
 
     public static void main(String[] args) throws IOException {
+
+
         NeuralNetwork nn = new NeuralNetwork(2, 8, 4, 3);
         Dataset dataset = Dataset.fromFile(Paths.get("./lab7/zad7-dataset.txt"));
         GeneticAlgorithm ga = new GeneticAlgorithm(nn, dataset);

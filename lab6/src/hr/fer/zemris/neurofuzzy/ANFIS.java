@@ -14,6 +14,10 @@ public class ANFIS {
     private List<Sample> samples;
     private int iters;
 
+    private IFunction fx;
+
+    private List<Double> errors;
+
     public ANFIS(double learningRate, int rulesCount, int iters) {
         this.learningRate = learningRate;
         this.iters = iters;
@@ -22,7 +26,7 @@ public class ANFIS {
             this.rules.add(new Rule());
         }
         samples = new ArrayList<>();
-        IFunction fx = new HWFunction();
+        this.fx = new HWFunction();
         for (int i = -4; i <= 4; ++i) {
             for (int j = -4; j <= 4; ++j) {
                 samples.add(new Sample(i, j, fx));
@@ -50,6 +54,10 @@ public class ANFIS {
         return getSAZ(x, y) / getSA(x, y);
     }
 
+    public double predict(double x, double y) {
+        return getO(x, y);
+    }
+
     private double mse() {
         double ans = 0;
         for (Sample sample : samples) {
@@ -75,6 +83,7 @@ public class ANFIS {
     }
 
     public void fit(boolean stochastic, boolean debug) {
+        errors = new ArrayList<>();
         for (int i = 0; i < iters; ++i) {
             if (stochastic) {
                 Sample sample = samples.get(i % samples.size());
@@ -86,10 +95,32 @@ public class ANFIS {
                 }
                 updateRules();
             }
+            double mse = mse();
+            errors.add(mse);
 
             if (debug && (i+1) % 500 == 0) {
-                System.out.println("#" + (i+1) + ": mse= " + mse());
+                System.out.println("#" + (i+1) + ": mse= " + mse);
             }
         }
+    }
+
+    public List<Rule> getRules() {
+        return rules;
+    }
+
+    public List<Double> getErrors() {
+        return errors;
+    }
+
+    public List<Sample> getSamples() {
+        return samples;
+    }
+
+    public IFunction getFunction() {
+        return fx;
+    }
+
+    public double getError(double x, double y) {
+        return getO(x, y) - fx.getF(x, y);
     }
 }
