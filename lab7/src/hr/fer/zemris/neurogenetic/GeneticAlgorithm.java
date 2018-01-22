@@ -132,12 +132,10 @@ public class GeneticAlgorithm {
 
     public double[] argmaxPredict(double[] inputs) {
         double[] output = predict(inputs);
-        double max = Double.MIN_VALUE;
         int idx = 0;
         for (int i = 0; i < output.length; ++i) {
             if (output[i] > output[idx]) {
                 idx = i;
-                max = output[i];
             }
         }
         double[] ans = new double[output.length];
