@@ -8,6 +8,7 @@ import hr.fer.zemris.neurogenetic.genetic.mutation.AddGaussMutation;
 import hr.fer.zemris.neurogenetic.genetic.mutation.IMutation;
 import hr.fer.zemris.neurogenetic.genetic.mutation.ReplaceGaussMutation;
 import hr.fer.zemris.neurogenetic.support.Dataset;
+import hr.fer.zemris.neurogenetic.support.Sample;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;
@@ -125,13 +126,48 @@ public class GeneticAlgorithm {
         return population[bestId];
     }
 
+    public double[] predict(double[] inputs) {
+        return nn.calcOutput(getBest(), inputs);
+    }
+
+    public double[] argmaxPredict(double[] inputs) {
+        double[] output = predict(inputs);
+        double max = Double.MIN_VALUE;
+        int idx = 0;
+        for (int i = 0; i < output.length; ++i) {
+            if (output[i] > output[idx]) {
+                idx = i;
+                max = output[i];
+            }
+        }
+        double[] ans = new double[output.length];
+        ans[idx] = 1;
+        return ans;
+    }
+
     public static void main(String[] args) throws IOException {
 
 
         NeuralNetwork nn = new NeuralNetwork(2, 8, 4, 3);
-        Dataset dataset = Dataset.fromFile(Paths.get("./lab7/zad7-dataset.txt"));
+        Dataset dataset = Dataset.fromFile(Paths.get("D:\\FER\\NENR\\lab7\\zad7-dataset.txt"));
         GeneticAlgorithm ga = new GeneticAlgorithm(nn, dataset);
 
         ga.evolve();
+
+        int correct = 0;
+        for (Sample sample : dataset.getSamples()) {
+            double[] input = sample.getInputs();
+            double[] output = sample.getOutputs();
+            double[] predict = ga.argmaxPredict(input);
+            for (int i = 0; i < output.length; ++i) {
+                if (output[i] == 1 && predict[i] == 1) {
+                    correct++;
+                    break;
+                }
+            }
+        }
+
+        double success = 100. * correct / dataset.getSize();
+        System.out.println(success + "% samples classified correctly");
     }
 }
