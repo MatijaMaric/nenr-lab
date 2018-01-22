@@ -167,5 +167,7 @@ public class GeneticAlgorithm {
 
         double success = 100. * correct / dataset.getSize();
         System.out.println(success + "% samples classified correctly");
+
     }
+
 }
