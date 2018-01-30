@@ -2,6 +2,11 @@ package hr.fer.zemris.neural.net;
 
 import hr.fer.zemris.neural.support.NeuralUtil;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +19,8 @@ public class NeuralNetwork {
     private List<Neuron> inputLayer = new ArrayList<>();
     private List<List<Neuron>> hiddenLayers = new ArrayList<>();
     private List<Neuron> outputLayer = new ArrayList<>();
+
+    private List<Double> errors = new ArrayList<>();
 
     public NeuralNetwork(double learningRate, double momentum, int inputs, int outputs, int... hidden) {
         this.learningRate = learningRate;
@@ -111,9 +118,7 @@ public class NeuralNetwork {
         for (Connection connection : neuron.getConnections()) {
             Neuron left = connection.getLeft();
             double dW = learningRate * d * left.getOutput();
-            double w = connection.getW() + dW;
-            connection.setdW(dW);
-            connection.setW(w + momentum * connection.getdW0());
+            connection.addW(dW);
         }
     }
 
@@ -137,18 +142,11 @@ public class NeuralNetwork {
         List<Sample> samples = new ArrayList<>();
         batches.forEach(batch -> samples.addAll(batch));
 
+        errors = new ArrayList<>();
+
         double error = Double.MAX_VALUE;
         int iter = 0;
         while (iter < maxIters && error > errorTreshold) {
-            error = 0;
-            int correct = 0;
-            for (Sample sample : samples) {
-                setInputs(sample.getInputs());
-                calcOutput();
-                double[] predict = getOutput();
-                error += NeuralUtil.mse(predict, sample.getOutputs());
-                correct += isCorrect(predict, sample.getOutputs()) ? 1 : 0;
-            }
 
             for (List<Sample> batch : batches) {
                 for (Sample sample : batch) {
@@ -158,17 +156,50 @@ public class NeuralNetwork {
                     calcOutput();
                     backprop(outputs);
                 }
+                updateWeights();
                 iter++;
+                error = getError(samples);
+                errors.add(error);
+                if ((iter+1) % 1000 == 0) {
+                    System.out.println((iter+1) + "#: mse = " + error);
+                }
+                if (iter == maxIters) break;
             }
-            if ((iter+1) % 1000 == 0) {
-                System.out.println((iter+1) + "#: mse = " + error + " guessed: " + (correct / samples.size()) * 100 + "%" );
-            }
+
         }
+    }
+
+    private double getError(List<Sample> samples) {
+        double error = 0;
+        for (Sample sample : samples) {
+            setInputs(sample.getInputs());
+            calcOutput();
+            double[] predict = getOutput();
+            error += NeuralUtil.mse(predict, sample.getOutputs());
+        }
+        return error;
+    }
+
+    private void updateWeights() {
+        for (List<Neuron> layer : hiddenLayers) {
+            layer.forEach(Neuron::update);
+        }
+        outputLayer.forEach(Neuron::update);
     }
 
     public double[] predict(double[] inputs) {
         setInputs(inputs);
         calcOutput();
         return getOutput();
+    }
+
+    public void logError(Path path) throws IOException {
+        Writer w = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
+
+        for (Double error : errors) {
+            w.write(error + "\n");
+        }
+        w.flush();
+        w.close();
     }
 }

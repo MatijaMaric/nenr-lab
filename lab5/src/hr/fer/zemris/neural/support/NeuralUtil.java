@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -37,7 +38,10 @@ public class NeuralUtil {
     public static List<List<Sample>> groupBatch(List<Sample> samples, int batchSize) {
         List<List<Sample>> batches = new ArrayList<>();
         List<Sample> batch = new ArrayList<>();
-        for (Sample sample : samples) {
+        List<Sample> shuffled = new ArrayList<>(samples);
+        Collections.shuffle(shuffled);
+
+        for (Sample sample : shuffled) {
             batch.add(sample);
             if (batch.size() == batchSize) {
                 batches.add(batch);

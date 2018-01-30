@@ -4,11 +4,11 @@ import hr.fer.zemris.neural.gui.Classifier;
 
 import javax.swing.*;
 
-public class Demo {
+public class ClassifierApp {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Classifier classifier = new Classifier();
+            Classifier classifier = new Classifier(Classifier.BatchSize.MINIBATCH);
             classifier.setVisible(true);
         });
     }

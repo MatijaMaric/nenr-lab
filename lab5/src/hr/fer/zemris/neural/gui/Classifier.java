@@ -10,16 +10,29 @@ import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Timer;
 
+import static hr.fer.zemris.neural.support.NeuralUtil.delta;
 import static hr.fer.zemris.neural.support.NeuralUtil.groupBatch;
 import static hr.fer.zemris.neural.support.NeuralUtil.samplesFromFile;
 
 public class Classifier extends JFrame {
 
+    private static final int MINI_BATCH_SIZE = 20;
+
+    public enum BatchSize {
+        STOCHASTIC,
+        MINIBATCH,
+        BATCH
+    };
+
     private NeuralNetwork nn;
 
-    public Classifier() {
+    private BatchSize batchSize;
 
+    public Classifier(BatchSize batchSize) {
+
+        this.batchSize = batchSize;
         setSize(500, 500);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -34,16 +47,33 @@ public class Classifier extends JFrame {
         initNeuralNet();
     }
 
+    public Classifier() {
+        this(BatchSize.BATCH);
+    }
+
     private void initNeuralNet() {
+        long startTime = System.nanoTime();
         nn = new NeuralNetwork(0.1, 0.7, 20, 5, 10, 10);
         try {
             List<Sample> samples = samplesFromFile(Paths.get("../samples"), 20, 5);
-            List<List<Sample>> batches = groupBatch(samples, samples.size());
+            List<List<Sample>> batches;
+            switch (batchSize) {
+                case MINIBATCH: batches = groupBatch(samples, MINI_BATCH_SIZE); break;
+                case STOCHASTIC: batches = groupBatch(samples, 1); break;
+                case BATCH:
+                default: batches = groupBatch(samples, samples.size()); break;
+            }
             nn.fit(batches, 10000, 1E-5);
+            nn.logError(Paths.get("../lab5/" + batchSize.toString() + ".txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        long endTime = System.nanoTime();
 
+        long duration = endTime - startTime;
+        double miliseconds = duration / 1000000;
+
+        System.out.println("Training lasted " + miliseconds + " ms");
     }
 
     private String argmax(double[] vals, String[] labels) {

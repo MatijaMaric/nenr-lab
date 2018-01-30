@@ -68,4 +68,8 @@ public class Neuron {
     public double actdFx(double x) {
         return activationFunction.dfx(x);
     }
+
+    public void update() {
+        connections.forEach(Connection::update);
+    }
 }
