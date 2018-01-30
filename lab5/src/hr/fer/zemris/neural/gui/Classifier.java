@@ -3,7 +3,6 @@ package hr.fer.zemris.neural.gui;
 import hr.fer.zemris.neural.gui.CanvasPanel.CanvasObserver;
 import hr.fer.zemris.neural.net.NeuralNetwork;
 import hr.fer.zemris.neural.net.Sample;
-import hr.fer.zemris.neural.net.Sigmoid;
 import hr.fer.zemris.neural.support.Curve;
 
 import javax.swing.*;
@@ -36,9 +35,9 @@ public class Classifier extends JFrame {
     }
 
     private void initNeuralNet() {
-        nn = new NeuralNetwork(0.1, new Sigmoid(), 50, 8, 8, 5);
+        nn = new NeuralNetwork(0.1, 0.7, 20, 5, 10, 10);
         try {
-            List<Sample> samples = samplesFromFile(Paths.get("../samples"), 50, 5);
+            List<Sample> samples = samplesFromFile(Paths.get("../samples"), 20, 5);
             List<List<Sample>> batches = groupBatch(samples, samples.size());
             nn.fit(batches, 10000, 1E-5);
         } catch (IOException e) {
@@ -47,14 +46,28 @@ public class Classifier extends JFrame {
 
     }
 
+    private String argmax(double[] vals, String[] labels) {
+        int idx = 0;
+        double max = Double.MIN_VALUE;
+        for (int i = 0; i < vals.length; ++i) {
+            if (vals[i] > max) {
+                max = vals[i];
+                idx = i;
+            }
+        }
+        return labels[idx];
+    }
+
     private CanvasObserver classifyOnDraw = new CanvasObserver() {
         @Override
         void drawn(Curve curve) {
-            double[] classify = nn.predict(curve.flatten());
+            double[] classify = nn.predict(curve.getFeats(10).normalize().flatten());
+            String[] labels = {"alpha", "beta", "gamma", "delta", "epsilon"};
             for (double d : classify) {
                 System.out.print(d + " ");
             }
             System.out.println();
+            System.out.println(argmax(classify, labels));
         }
     };
 }

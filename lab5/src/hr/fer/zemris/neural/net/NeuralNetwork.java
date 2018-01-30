@@ -1,80 +1,174 @@
 package hr.fer.zemris.neural.net;
 
+import hr.fer.zemris.neural.support.NeuralUtil;
+
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NeuralNetwork {
 
-    private int inputSize;
-    private List<Layer> layers;
     private double learningRate;
-    private IActivationFunction activationFunction;
+    private double momentum;
 
-    public NeuralNetwork(double learningRate, IActivationFunction activationFunction, int... layerSizes) {
+    private List<Neuron> inputLayer = new ArrayList<>();
+    private List<List<Neuron>> hiddenLayers = new ArrayList<>();
+    private List<Neuron> outputLayer = new ArrayList<>();
+
+    public NeuralNetwork(double learningRate, double momentum, int inputs, int outputs, int... hidden) {
         this.learningRate = learningRate;
-        this.activationFunction = activationFunction;
-        this.layers = new ArrayList<>(layerSizes.length-1);
-        this.inputSize = layerSizes[0];
-        for (int i = 1; i < layerSizes.length; ++i) {
-            layers.add(new Layer(layerSizes[i], layerSizes[i-1], activationFunction));
+        this.momentum = momentum;
+
+        for (int i = 0; i < inputs; ++i) {
+            inputLayer.add(new Neuron());
+        }
+
+        for (int i = 0; i < hidden.length; ++i) {
+            List<Neuron> hiddenLayer = new ArrayList<>();
+            for (int j = 0; j < hidden[i]; ++j) {
+                Neuron neuron = new Neuron();
+                hiddenLayer.add(neuron);
+                if (i == 0) {
+                    neuron.addConnections(inputLayer);
+                } else {
+                    neuron.addConnections(hiddenLayers.get(i-1));
+                }
+            }
+            hiddenLayers.add(hiddenLayer);
+        }
+
+        for (int i = 0; i < outputs; ++i) {
+            Neuron neuron = new Neuron();
+            neuron.addConnections(hiddenLayers.get(hiddenLayers.size()-1));
+            outputLayer.add(neuron);
+        }
+
+        Neuron.counter = 0;
+        Connection.counter = 0;
+    }
+
+    private void setInputs(double[] inputs) {
+        for (int i = 0; i < inputLayer.size(); ++i) {
+            inputLayer.get(i).setOutput(inputs[i]);
         }
     }
 
-    public double[] predict(double[] input) {
-        double[] ans = input;
-        for (Layer layer : layers) {
-            ans = layer.predict(ans);
+    private double[] getOutput() {
+        double[] output = new double[outputLayer.size()];
+        for (int i = 0; i < outputLayer.size(); ++i) {
+            output[i] = outputLayer.get(i).getOutput();
         }
-        return ans;
+        return output;
     }
 
-    public void fit(List<List<Sample>> batches, int maxIter, double minErr) {
+    private void calcOutput() {
+        for (List<Neuron> layer : hiddenLayers) {
+            layer.forEach(Neuron::calcOutput);
+        }
+        outputLayer.forEach(Neuron::calcOutput);
+    }
+
+    private void backprop(double[] output) {
+        int i = 0;
+        for (Neuron neuron : outputLayer) {
+            double o = neuron.getOutput();
+            double y = output[i++];
+            double d = (y - o) * neuron.actdFx(o);
+            updateConnections(neuron, d);
+        }
+        double[] prevDs = new double[0];
+        for (int j = hiddenLayers.size()-1; j >= 0; --j) {
+            int n = 0;
+            double[] Ds = new double[hiddenLayers.get(j).size()];
+            for (Neuron neuron : hiddenLayers.get(j)) {
+                double o = neuron.getOutput();
+                double sum = 0;
+
+                if (j == hiddenLayers.size()-1) {
+                    int k = 0;
+                    for (Neuron nextN : outputLayer) {
+                        double wk = nextN.getConnection(neuron.id).getW();
+                        double yk = output[k++];
+                        double ok = nextN.getOutput();
+                        sum += (yk - ok) * neuron.actdFx(ok) * wk;
+                    }
+                } else {
+                    int k = 0;
+                    for (Neuron nextN : hiddenLayers.get(j+1)) {
+                        double wk = nextN.getConnection(neuron.id).getW();
+                        sum += prevDs[k++] * wk;
+                    }
+                }
+                double d = neuron.actdFx(o) * sum;
+                Ds[n++] = d;
+                updateConnections(neuron, d);
+            }
+            prevDs = Ds;
+        }
+    }
+
+    private void updateConnections(Neuron neuron, double d) {
+        for (Connection connection : neuron.getConnections()) {
+            Neuron left = connection.getLeft();
+            double dW = learningRate * d * left.getOutput();
+            double w = connection.getW() + dW;
+            connection.setdW(dW);
+            connection.setW(w + momentum * connection.getdW0());
+        }
+    }
+
+    private boolean isCorrect(double[] h, double[] y) {
+        int idxH, idxY; idxH = idxY = -1;
+        double maxH, maxY; maxH = maxY = Double.MIN_VALUE;
+        for (int i = 0; i < h.length; ++i) {
+            if (h[i] > maxH) {
+                maxH = h[i];
+                idxH = i;
+            }
+            if (y[i] > maxY) {
+                maxY = y[i];
+                idxY = i;
+            }
+        }
+        return idxH == idxY;
+    }
+
+    public void fit(List<List<Sample>> batches, int maxIters, double errorTreshold) {
         List<Sample> samples = new ArrayList<>();
-        for (List<Sample> batch : batches) {
-            samples.addAll(batch);
-        }
-        double mse = mse(samples);
+        batches.forEach(batch -> samples.addAll(batch));
 
-        for (int iter = 0; iter < maxIter && mse > minErr; ++iter) {
-            if ((iter + 1) % 500 == 0) {
-                System.out.println("#" + (iter + 1) + ": mse= " + mse);
+        double error = Double.MAX_VALUE;
+        int iter = 0;
+        while (iter < maxIters && error > errorTreshold) {
+            error = 0;
+            int correct = 0;
+            for (Sample sample : samples) {
+                setInputs(sample.getInputs());
+                calcOutput();
+                double[] predict = getOutput();
+                error += NeuralUtil.mse(predict, sample.getOutputs());
+                correct += isCorrect(predict, sample.getOutputs()) ? 1 : 0;
             }
 
             for (List<Sample> batch : batches) {
                 for (Sample sample : batch) {
-                    double[] input = sample.getInputs();
-                    double[] target = sample.getOutputs();
-                    double[] output = predict(input);
-
-                    double[] delta = new double[output.length];
-                    for (int i = 0; i < delta.length; ++i) {
-                        delta[i] = activationFunction.dfx(output[i]) * (target[i] - output[i]);
-                    }
-                    layers.get(layers.size()-1).setDeltas(delta);
-
-                    for (int i = layers.size()-2; i >= 0; --i) {
-                        layers.get(i).updateWeights(layers.get(i+1), learningRate);
-                        layers.get(i).updateDelta(layers.get(i+1));
-                    }
+                    double[] inputs = sample.getInputs();
+                    double[] outputs = sample.getOutputs();
+                    setInputs(inputs);
+                    calcOutput();
+                    backprop(outputs);
                 }
-
-                for (Layer layer : layers) {
-                    layer.setWeights();
-                }
+                iter++;
             }
-
-            mse = mse(samples);
+            if ((iter+1) % 1000 == 0) {
+                System.out.println((iter+1) + "#: mse = " + error + " guessed: " + (correct / samples.size()) * 100 + "%" );
+            }
         }
     }
 
-    private double mse(List<Sample> samples) {
-        double err = 0;
-        for (Sample sample : samples) {
-            double[] t = predict(sample.getInputs());
-            for (int i = 0; i < sample.getOutputs().length; ++i) {
-                err += Math.pow(sample.getOutputs()[i] - t[i], 2);
-            }
-        }
-        return err / (2 * samples.size());
+    public double[] predict(double[] inputs) {
+        setInputs(inputs);
+        calcOutput();
+        return getOutput();
     }
 }

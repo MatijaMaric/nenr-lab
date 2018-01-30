@@ -81,6 +81,11 @@ public class CanvasPanel extends JPanel {
         }
     }
 
+    public void setPoints(List<Point> points) {
+        this.points = points;
+        repaint();
+    }
+
     public abstract static class CanvasObserver {
         abstract void drawn(Curve curve);
     }

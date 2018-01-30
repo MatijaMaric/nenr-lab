@@ -7,17 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class NeuralUtil {
+
+    public static Random random = new Random();
 
     public static double sigm(double x) {
         return 1. / (1 + Math.exp(-x));
     }
 
     public static double dSigm(double x) {
-        double sigm = sigm(x);
-        return sigm * (1 - sigm);
+        return x * (1-x);
     }
 
     public static double product(double[] a, double[] b) {
@@ -46,7 +48,7 @@ public class NeuralUtil {
         return batches;
     }
 
-    public static double meanSquareError(double[] h, double[] y) {
+    public static double mse(double[] h, double[] y) {
         double mse = 0;
         for (int i = 0; i < h.length; ++i) mse += Math.pow(h[i] - y[i], 2);
         return mse / (2*h.length);

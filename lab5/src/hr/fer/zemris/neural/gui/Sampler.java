@@ -71,7 +71,7 @@ public class Sampler extends JFrame {
         void drawn(Curve curve) {
             try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("../samples"), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
                 if (curve.getLength() < 100) return;
-                Curve features = curve.getFeats(25).normalize();
+                Curve features = curve.getFeats(10).normalize();
                 System.out.println(features.getPoints().size());
                 System.out.println(features.flatten().length);
                 StringBuilder sb = new StringBuilder();
