@@ -55,7 +55,7 @@ public class Classifier extends JFrame {
         long startTime = System.nanoTime();
         nn = new NeuralNetwork(0.1, 0.7, 20, 5, 10, 10);
         try {
-            List<Sample> samples = samplesFromFile(Paths.get("../samples"), 20, 5);
+            List<Sample> samples = samplesFromFile(Paths.get("../lab5/samples"), 20, 5);
             List<List<Sample>> batches;
             switch (batchSize) {
                 case MINIBATCH: batches = groupBatch(samples, MINI_BATCH_SIZE); break;

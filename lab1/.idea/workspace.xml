@@ -68,8 +68,8 @@
       <file leaf-file-name="Classifier.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Classifier.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="75" column="67" lean-forward="false" selection-start-line="75" selection-start-column="67" selection-end-line="75" selection-end-column="67" />
+            <state relative-caret-position="321">
+              <caret line="57" column="69" lean-forward="false" selection-start-line="57" selection-start-column="69" selection-end-line="57" selection-end-column="69" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1289#1290#0" expanded="true" />
@@ -89,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sampler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Sampler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Sampler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="76" column="55" lean-forward="false" selection-start-line="76" selection-start-column="55" selection-end-line="76" selection-end-column="55" />
+            <state relative-caret-position="357">
+              <caret line="74" column="64" lean-forward="true" selection-start-line="74" selection-start-column="64" selection-end-line="74" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -113,7 +113,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClassifierApp.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClassifierApp.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/ClassifierApp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -211,13 +211,13 @@
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/net/Sigmoid.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/CanvasPanel.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Debug.java" />
-        <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Sampler.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/net/Neuron.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/net/Connection.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/net/NeuralNetwork.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/support/NeuralUtil.java" />
-        <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Classifier.java" />
         <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/ClassifierApp.java" />
+        <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Classifier.java" />
+        <option value="$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Sampler.java" />
       </list>
     </option>
   </component>
@@ -732,12 +732,12 @@
       <workItem from="1513367747418" duration="51593000" />
       <workItem from="1515406696535" duration="13052000" />
       <workItem from="1516579109360" duration="9675000" />
-      <workItem from="1517304567916" duration="18426000" />
+      <workItem from="1517304567916" duration="18970000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172581000" />
+    <option name="totallyTimeSpent" value="173125000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1194,16 +1194,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Sampler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="76" column="55" lean-forward="false" selection-start-line="76" selection-start-column="55" selection-end-line="76" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/net/Neuron.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="455">
@@ -1251,26 +1241,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/SamplerApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Classifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="75" column="67" lean-forward="false" selection-start-line="75" selection-start-column="67" selection-end-line="75" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1289#1290#0" expanded="true" />
-            <element signature="e#1326#1327#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/net/NeuralNetwork.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -1285,6 +1255,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="81" lean-forward="false" selection-start-line="10" selection-start-column="81" selection-end-line="10" selection-end-column="81" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/SamplerApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Classifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="57" column="69" lean-forward="false" selection-start-line="57" selection-start-column="69" selection-end-line="57" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1289#1290#0" expanded="true" />
+            <element signature="e#1326#1327#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../lab5/src/hr/fer/zemris/neural/gui/Sampler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="74" column="64" lean-forward="true" selection-start-line="74" selection-start-column="64" selection-end-line="74" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

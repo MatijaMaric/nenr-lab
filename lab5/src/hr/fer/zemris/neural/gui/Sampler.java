@@ -69,7 +69,7 @@ public class Sampler extends JFrame {
     private CanvasObserver addOnDraw = new CanvasObserver() {
         @Override
         void drawn(Curve curve) {
-            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("../samples"), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("../lab5/samples"), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
                 if (curve.getLength() < 100) return;
                 Curve features = curve.getFeats(10).normalize();
                 System.out.println(features.getPoints().size());
