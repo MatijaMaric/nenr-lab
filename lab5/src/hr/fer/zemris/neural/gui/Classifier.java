@@ -30,6 +30,8 @@ public class Classifier extends JFrame {
 
     private BatchSize batchSize;
 
+    private JLabel label;
+
     public Classifier(BatchSize batchSize) {
 
         this.batchSize = batchSize;
@@ -43,6 +45,9 @@ public class Classifier extends JFrame {
         CanvasPanel canvas = new CanvasPanel();
         canvas.addObserver(classifyOnDraw);
         c.add(canvas, BorderLayout.CENTER);
+
+        label = new JLabel();
+        c.add(label, BorderLayout.SOUTH);
 
         initNeuralNet();
     }
@@ -97,7 +102,12 @@ public class Classifier extends JFrame {
                 System.out.print(d + " ");
             }
             System.out.println();
-            System.out.println(argmax(classify, labels));
+            String labelText = argmax(classify, labels);
+            System.out.println(labelText);
+
+            label.setText(labelText);
+
+
         }
     };
 }

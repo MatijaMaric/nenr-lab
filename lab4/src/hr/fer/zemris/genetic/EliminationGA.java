@@ -10,23 +10,16 @@ import java.util.Comparator;
 
 public class EliminationGA extends GeneticAlgorithm {
 
-    private int k = 3;
-
     public EliminationGA(IFitness fitness, ISelection selection, ICrossover crossover, IMutation mutation) {
         super(fitness, selection, crossover, mutation);
-    }
-
-    public EliminationGA(IFitness fitness, ISelection selection, ICrossover crossover, IMutation mutation, int k) {
-        super(fitness, selection, crossover, mutation);
-        this.k = k;
     }
 
     @Override
     public Population evolve(Population pop) {
         Population nextGeneration = pop.copy();
 
-        Individual[] kTournament = new Individual[k];
-        for (int j = 0; j < k; ++j) {
+        Individual[] kTournament = new Individual[3];
+        for (int j = 0; j < 3; ++j) {
             kTournament[j] = getSelection().selection(pop);
         }
         Arrays.sort(kTournament, Comparator.comparingDouble(Individual::getFitness));
