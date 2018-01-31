@@ -18,6 +18,8 @@ import java.nio.file.Paths;
 
 public class GenerationalDemo {
 
+    public static final int MAX_ITER = 20000;
+
     public static void main(String[] args) throws IOException {
         boolean noise = true;
 
@@ -30,17 +32,16 @@ public class GenerationalDemo {
 
         Population pop = new Population(20, 5, fitness);
 
-        for (int i = 0; i < 20000; ++i) {
+        for (int i = 0; i < MAX_ITER; ++i) {
             pop = ga.evolve(pop);
             Individual best = pop.getBestIndividual();
-            if (i % 1000 == 0) System.out.println(best.getFitness());
+            if ((i+1) % 1000 == 0) {
+                System.out.println((i+1) + "#: err=" + best.getFitness());
+                System.out.println(best);
+            }
         }
 
-        Individual best = pop.getBestIndividual();
-        for (int i = 0; i < best.getGenes().length; ++i) {
-            System.out.print(best.getGenes()[i] + " ");
-        }
-        System.out.println();
+       // System.out.println(pop.getBestIndividual());
 
     }
 }

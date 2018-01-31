@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 public class NeuralNetwork {
 
     private double learningRate;
-    private double momentum;
 
     private List<Neuron> inputLayer = new ArrayList<>();
     private List<List<Neuron>> hiddenLayers = new ArrayList<>();
@@ -22,9 +20,8 @@ public class NeuralNetwork {
 
     private List<Double> errors = new ArrayList<>();
 
-    public NeuralNetwork(double learningRate, double momentum, int inputs, int outputs, int... hidden) {
+    public NeuralNetwork(double learningRate, int inputs, int outputs, int... hidden) {
         this.learningRate = learningRate;
-        this.momentum = momentum;
 
         for (int i = 0; i < inputs; ++i) {
             inputLayer.add(new Neuron());

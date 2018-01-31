@@ -53,7 +53,7 @@ public class Classifier extends JFrame {
 
     private void initNeuralNet() {
         long startTime = System.nanoTime();
-        nn = new NeuralNetwork(0.1, 0.7, 20, 5, 10, 10);
+        nn = new NeuralNetwork(0.1, 20, 5, 10, 10);
         try {
             List<Sample> samples = samplesFromFile(Paths.get("../lab5/samples"), 20, 5);
             List<List<Sample>> batches;

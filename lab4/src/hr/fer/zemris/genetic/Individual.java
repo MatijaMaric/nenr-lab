@@ -44,4 +44,15 @@ public class Individual {
         }
         return new Individual(generated);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < genes.length; ++i) {
+            sb.append(genes[i]);
+            sb.append(" ");
+        }
+        sb.setLength(sb.length()-1);
+        return sb.toString();
+    }
 }
