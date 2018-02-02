@@ -12,9 +12,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Timer;
 
-import static hr.fer.zemris.neural.support.NeuralUtil.delta;
-import static hr.fer.zemris.neural.support.NeuralUtil.groupBatch;
-import static hr.fer.zemris.neural.support.NeuralUtil.samplesFromFile;
+import static hr.fer.zemris.neural.support.NeuralUtil.*;
 
 public class Classifier extends JFrame {
 
@@ -61,6 +59,7 @@ public class Classifier extends JFrame {
         nn = new NeuralNetwork(0.1, 20, 5, 10, 10);
         try {
             List<Sample> samples = samplesFromFile(Paths.get("../lab5/samples"), 20, 5);
+            samples = mirrorSamples(samples);
             List<List<Sample>> batches;
             switch (batchSize) {
                 case MINIBATCH: batches = groupBatch(samples, MINI_BATCH_SIZE); break;

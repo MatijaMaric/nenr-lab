@@ -35,6 +35,16 @@ public class NeuralUtil {
         return Files.readAllLines(path).stream().map(s -> Sample.fromString(s, inputSize, outputSize)).collect(Collectors.toList());
     }
 
+    public static List<Sample> mirrorSamples(List<Sample> samples) {
+        List<Sample> ans = new ArrayList<>();
+        for (Sample sample : samples) {
+            ans.add(sample);
+            ans.add(sample.reverse());
+        }
+
+        return ans;
+    }
+
     public static List<List<Sample>> groupBatch(List<Sample> samples, int batchSize) {
         List<List<Sample>> batches = new ArrayList<>();
         List<Sample> batch = new ArrayList<>();

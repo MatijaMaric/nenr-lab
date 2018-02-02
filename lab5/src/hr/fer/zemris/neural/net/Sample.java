@@ -43,4 +43,14 @@ public class Sample {
 
         return new Sample(inputs, outputs);
     }
+
+    public Sample reverse() {
+        double[] inputsReverted = new double[inputs.length];
+        int j=0;
+        for (int i = inputs.length-2; i >= 0; i -= 2) {
+            inputsReverted[j++] = inputs[i];
+            inputsReverted[j++] = inputs[i+1];
+        }
+        return new Sample(inputsReverted, outputs);
+    }
 }
